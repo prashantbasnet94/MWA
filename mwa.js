@@ -1,3 +1,88 @@
+/*
+Situation:
+
+Problem Context: We need to find a minimum-weight arborescence (directed spanning tree) in a weighted directed graph rooted at vertex 1.
+Input: A graph with n vertices and m edges (1 ≤ n ≤ 1000, 1 ≤ m ≤ 10000), where edges have non-negative weights.
+Constraints: The solution must terminate within 10 seconds.
+
+
+
+
+Task
+Primary Objective:
+Implement an algorithm to compute the total weight of the minimum-weight arborescence rooted at vertex 1.
+
+Key Requirements:
+Handle directed graphs with possible cycles.
+Ensure every vertex is reachable from the root.
+Optimize for efficiency given the constraints (O(nm) time complexity).
+
+Edge Cases:
+Disconnected graphs (though the problem guarantees reachability).
+Graphs with parallel edges (excluded by problem constraints).
+Large graphs (n ≈ 1000, m ≈ 10000).
+
+
+
+
+APPROACH: Chu-Liu/Edmonds' Algorithm for Minimum Arborescence
+
+
+1. INITIALIZATION
+ - Start with total weight = 0
+ - Root is fixed (vertex 1)
+
+
+2. MAIN LOOP (repeat until solution found)
+ a. SELECT MIN INCOMING EDGES:
+   - For each vertex (except root), pick its cheapest incoming edge
+   - These edges form a "reduced graph"
+
+
+ b. CYCLE DETECTION:
+   - Check if the reduced graph contains any directed cycles
+   - If NO cycles found:
+     * Sum weights of all selected edges → this is our solution
+     * Exit algorithm
+
+
+ c. CYCLE CONTRACTION (if cycles exist):
+   - For each detected cycle:
+     * Calculate total weight of cycle edges
+     * Contract the cycle into a single "supernode"
+     * Adjust edge weights for edges entering/leaving the cycle:
+      - For edges ENTERING the cycle: weight = original_weight - selected_incoming_edge_weight
+      - For edges LEAVING the cycle: weight remains unchanged
+
+
+ d. RECURSION:
+   - Solve the problem recursively on the contracted graph
+   - When expanding back:
+     * Keep all selected edges except one in each cycle
+     * For each cycle, exclude the edge that would create a conflict
+
+
+3. TERMINATION
+ - When graph has no cycles in reduced form
+ - Sum of selected edge weights gives the minimal arborescence
+
+
+
+
+
+
+ 
+*/
+
+
+
+
+
+
+
+
+
+
 function minArborescence(n, edges, root = 1) {
     let totalWeight = 0;
     
@@ -101,3 +186,13 @@ const edges = [
 ];
 
 console.log(minArborescence(n, edges, 1)); // Output: 4 (1→2, 2→3, 3→4)
+
+
+
+
+
+
+
+
+
+
